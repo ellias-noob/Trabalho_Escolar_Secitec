@@ -1,0 +1,24 @@
+# Angular
+frontend/node_modules/
+frontend/dist/
+
+# Node API
+backend/node_modules/
+backend/.env
+
+# IDEs e editores
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Logs e caches
+*.log
+/.angular/cache
+/tmp
+/out-tsc
+
+# Sistema
+.DS_Store
+Thumbs.db

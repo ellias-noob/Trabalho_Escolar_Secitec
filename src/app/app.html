@@ -1,0 +1,95 @@
+<main class="login-container" *ngIf="!logado">
+
+    <!-- Lado esquerdo -->
+    <section class="logo-section">
+        <div class="logo-wrapper">
+            <img src="https://escolatiradentescuiaba.com/wp-content/uploads/2024/05/LOGO-TIRADENTES-241x300.png"
+                 alt="Logo CMT Cuiabá"
+                 class="logo">
+            <div class="shadow"></div>
+        </div>
+    </section>
+
+    <!-- Login -->
+    <section class="login-section">
+        <h2>Login do Aluno</h2>
+
+        <form (submit)="login()">
+
+            <input
+                type="text"
+                placeholder="Matrícula"
+                [(ngModel)]="matricula"
+                name="matricula"
+                required
+            >
+
+            <input
+                type="password"
+                placeholder="Senha"
+                [(ngModel)]="senha"
+                name="senha"
+                required
+            >
+
+            <button type="submit">
+                Entrar
+            </button>
+
+        </form>
+
+        <p class="error-message" *ngIf="erro">
+            {{erro}}
+        </p>
+
+    </section>
+
+</main>
+
+
+<!-- BOLETIM -->
+
+<section id="grades-section" *ngIf="logado">
+
+    <h2>Boletim do Aluno</h2>
+
+    <div id="student-info">
+        <p><strong>Nome:</strong> {{aluno?.nome}}</p>
+        <p><strong>Matrícula:</strong> {{aluno?.matricula}}</p>
+    </div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>Matéria</th>
+                <th>Bimestre 1</th>
+                <th>Bimestre 2</th>
+                <th>Bimestre 3</th>
+                <th>Bimestre 4</th>
+                <th>Recomposição</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr *ngFor="let materia of aluno?.notas">
+
+                <td>{{materia.nome}}</td>
+                <td>{{materia.b1}}</td>
+                <td>{{materia.b2}}</td>
+                <td>{{materia.b3}}</td>
+                <td>{{materia.b4}}</td>
+                <td>{{materia.rec}}</td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+    <button (click)="logout()">
+        Sair
+    </button>
+
+</section>
