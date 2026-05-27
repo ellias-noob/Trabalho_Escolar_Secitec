@@ -39,6 +39,8 @@ CREATE TABLE `alunos` (
 LOCK TABLES `alunos` WRITE;
 /*!40000 ALTER TABLE `alunos` DISABLE KEYS */;
 INSERT INTO `alunos` VALUES (1,'12345','João Silva','1234');
+INSERT INTO `alunos` VALUES (2,'2048990','Maria Oliveira','1234');
+
 /*!40000 ALTER TABLE `alunos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,6 +65,7 @@ CREATE TABLE `materias` (
 LOCK TABLES `materias` WRITE;
 /*!40000 ALTER TABLE `materias` DISABLE KEYS */;
 INSERT INTO `materias` VALUES (1,'Matemática'),(2,'Português'),(3,'História'),(4,'Geografia'),(5,'Ciências');
+INSERT INTO `materias` VALUES (2,'Matemática'),(2,'Português'),(3,'História'),(4,'Geografia'),(5,'Ciências');
 /*!40000 ALTER TABLE `materias` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -97,6 +100,8 @@ CREATE TABLE `notas` (
 LOCK TABLES `notas` WRITE;
 /*!40000 ALTER TABLE `notas` DISABLE KEYS */;
 INSERT INTO `notas` VALUES (1,1,1,8,7.5,9,6,7),(2,1,2,7,6.5,8,7,7.5),(3,1,3,9,8.5,8,9,8),(4,1,4,8,7,7.5,8,7.5),(5,1,5,7,6,7,8,6.5);
+INSERT INTO `notas` VALUES (2,1,1,8,7.5,9,6,7),(2,1,2,7,6.5,8,7,7.5),(3,1,3,9,8.5,8,9,8),(4,1,4,8,7,7.5,8,7.5),(5,1,5,7,6,7,8,6.5);
+
 /*!40000 ALTER TABLE `notas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

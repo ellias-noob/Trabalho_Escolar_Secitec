@@ -16,38 +16,62 @@ export class App {
   logado = false;
   erro = "";
 
+  tipoUsuario = ""; // Salva se quem entrou é 'aluno' ou 'professor'
   aluno: any = null;
+  professor: any = null;
 
-  login(){
+  async login() {
+    this.erro = ""; 
 
-    if(this.matricula === "12345" && this.senha === "1234"){
-
-      this.aluno = {
-        nome: "João Silva",
-        matricula: "12345",
-        notas: [
-          {nome:"Matemática", b1:8, b2:7.5, b3:9, b4:6, rec:7},
-          {nome:"Português", b1:7, b2:6.5, b3:8, b4:7, rec:7.5},
-          {nome:"História", b1:9, b2:8.5, b3:8, b4:9, rec:8},
-          {nome:"Geografia", b1:8, b2:7, b3:7.5, b4:8, rec:7.5},
-          {nome:"Ciências", b1:7, b2:6, b3:7, b4:8, rec:6.5}
-        ]
-      };
-
-      this.logado = true;
-      this.erro = "";
-
-    } else {
-      this.erro = "Matrícula ou senha inválidos.";
+    if (!this.matricula || !this.senha) {
+      this.erro = "Por favor, preencha a matrícula e a senha.";
+      return;
     }
 
-  }
+    try {
+      const response = await fetch('http://localhost:3000/api/login-aluno', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          matricula: this.matricula,
+          senha: this.senha
+        })
+      });
 
-  logout(){
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        this.logado = true;
+        this.tipoUsuario = data.tipo; // Recebe 'aluno' ou 'professor' do node
+
+        if (data.tipo === 'aluno') {
+          this.aluno = data.dados;
+        } else if (data.tipo === 'professor') {
+          // Salva os dados para o script.js ler e redireciona para a pasta pública
+          localStorage.setItem('professor_logado', JSON.stringify(data.dados));
+          localStorage.setItem('materia', data.dados.registro); // Alinha com o seu script.js
+          window.location.href = '/professores/dashboard.html';
+        }
+      } else {
+        this.erro = data.message || "Matrícula ou senha inválidos.";
+      }
+
+    } catch (err) {
+      console.error("Erro ao conectar na API:", err);
+      this.erro = "Não foi possível conectar ao servidor. Verifique sua conexão.";
+    }
+  } // 👈 Aqui fecha estritamente a função login()
+
+  logout() {
     this.logado = false;
+    this.tipoUsuario = "";
     this.aluno = null;
+    this.professor = null;
     this.matricula = "";
     this.senha = "";
-  }
+    this.erro = "";
+  } // 👈 Aqui fecha estritamente a função logout()
 
-}
+} // 👈 Aqui fecha estritamente a classe App de forma limpa!

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Portal do Professor</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard">
+
+    <div class="sidebar">
+        <div class="sidebar-arrow">➔</div>
+        <div class="sidebar-content">
+            <h2 id="tituloMateria">Matéria</h2>
+            <ul>
+                <li onclick="mostrar('notas')">📝 Lançar Notas/Faltas</li>
+                <li onclick="mostrar('gerenciar-alunos')">⚙️ Gerenciar Alunos</li>
+                <li onclick="logout()" class="btn-logout">🚪 Sair</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="dashboard-bg"></div>
+
+        <div id="notas" class="card notas-card-grande">
+            <h2>📚 Diário de Classe Digital</h2>
+            <p>Selecione a turma e o período para listar a pauta de chamada</p>
+
+            <div class="form-container-grande">
+                <div class="form-row-dupla">
+                    <div class="input-group">
+                        <label>🏫 Selecione a Turma</label>
+                        <select id="turma" onchange="carregarAlunosDaTurma()">
+                            <option value="">-- Escolha uma Turma --</option>
+                            <option value="1º A">1º Ano A</option><option value="1º B">1º Ano B</option><option value="1º C">1º Ano C</option><option value="1º D">1º Ano D</option><option value="1º F">1º Ano F</option>
+                            <option value="2º A">2º Ano A</option><option value="2º B">2º Ano B</option><option value="2º C">2º Ano C</option><option value="2º D">2º Ano D</option><option value="2º F">2º Ano F</option>
+                            <option value="3º A">3º Ano A</option><option value="3º B">3º Ano B</option><option value="3º C">3º Ano C</option><option value="3º D">3º Ano D</option><option value="3º F">3º Ano F</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>📅 Período Bimestral</label>
+                        <select id="bimestre" onchange="carregarAlunosDaTurma()">
+                            <option value="1º Bimestre">1º Bimestre</option>
+                            <option value="2º Bimestre">2º Bimestre</option>
+                            <option value="3º Bimestre">3º Bimestre</option>
+                            <option value="4º Bimestre">4º Bimestre</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="container-chamada" class="hidden" style="margin-top: 20px;">
+                    <h3>📋 Lista de Chamada</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Matrícula</th>
+                                <th>Nome do Aluno</th>
+                                <th style="width: 120px;">Nota (0-10)</th>
+                                <th style="width: 120px;">Faltas</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-alunos-chamada"></tbody>
+                    </table>
+                    <button class="btn-salvar" onclick="salvarDiarioCompleto()">💾 Salvar Diário da Turma</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="gerenciar-alunos" class="card notas-card-grande hidden">
+            <h2>⚙️ Secretária Escolar - Gerenciar Alunos</h2>
+            <p>Cadastre novos alunos ou remova-os das turmas do colégio</p>
+
+            <div class="form-container-grande" style="background: #f9f9f9; padding: 20px; border-radius: 8px;">
+                <h3>➕ Matricular Novo Aluno</h3>
+                <div class="form-row-dupla" style="margin-top: 15px;">
+                    <div class="input-group">
+                        <label>ID / Matrícula</label>
+                        <input type="text" id="novo-matricula" placeholder="Ex: MAT-2026-99">
+                    </div>
+                    <div class="input-group">
+                        <label>Nome Completo</label>
+                        <input type="text" id="novo-nome" placeholder="Nome do estudante">
+                    </div>
+                    <div class="input-group">
+                        <label>Turma</label>
+                        <select id="novo-turma">
+                            <option value="1º A">1º Ano A</option><option value="1º B">1º Ano B</option><option value="1º C">1º Ano C</option><option value="1º D">1º Ano D</option><option value="1º F">1º Ano F</option>
+                            <option value="2º A">2º Ano A</option><option value="2º B">2º Ano B</option><option value="2º C">2º Ano C</option><option value="2º D">2º Ano D</option><option value="2º F">2º Ano F</option>
+                            <option value="3º A">3º Ano A</option><option value="3º B">3º Ano B</option><option value="3º C">3º Ano C</option><option value="3º D">3º Ano D</option><option value="3º F">3º Ano F</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-salvar" style="background-color: #27ae60; margin-top: 15px;" onclick="cadastrarAluno()">➕ Confirmar Matrícula</button>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h3>📋 Lista de Alunos Atuais</h3>
+                <label>Filtrar por Turma para Visualizar/Remover:</label>
+                <select id="filtro-turma-gerencia" onchange="listarAlunosGerenciamento()" style="padding: 8px; width: 200px; margin-bottom: 15px; display: block;">
+                    <option value="">-- Escolha a Turma --</option>
+                    <option value="1º A">1º Ano A</option><option value="1º B">1º Ano B</option><option value="1º C">1º Ano C</option><option value="1º D">1º Ano D</option><option value="1º F">1º Ano F</option>
+                    <option value="2º A">2º Ano A</option><option value="2º B">2º Ano B</option><option value="2º C">2º Ano C</option><option value="2º D">2º Ano D</option><option value="2º F">2º Ano F</option>
+                    <option value="3º A">3º Ano A</option><option value="3º B">3º Ano B</option><option value="3º C">3º Ano C</option><option value="3º D">3º Ano D</option><option value="3º F">3º Ano F</option>
+                </select>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Matrícula</th>
+                            <th>Nome</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-gerenciar-alunos">
+                        <tr><td colspan="3" style="text-align: center; color: #777;">Selecione uma turma para ver a lista de gerenciamento.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

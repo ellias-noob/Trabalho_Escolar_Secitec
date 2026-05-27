@@ -1,6 +1,5 @@
 <main class="login-container" *ngIf="!logado">
 
-    <!-- Lado esquerdo -->
     <section class="logo-section">
         <div class="logo-wrapper">
             <img src="https://escolatiradentescuiaba.com/wp-content/uploads/2024/05/LOGO-TIRADENTES-241x300.png"
@@ -10,15 +9,14 @@
         </div>
     </section>
 
-    <!-- Login -->
     <section class="login-section">
-        <h2>Login do Aluno</h2>
+        <h2>Portal Escolar</h2>
 
-        <form (submit)="login()">
+        <form (ngSubmit)="login()">
 
             <input
                 type="text"
-                placeholder="Matrícula"
+                placeholder="Matrícula ou Registro ID"
                 [(ngModel)]="matricula"
                 name="matricula"
                 required
@@ -46,10 +44,7 @@
 
 </main>
 
-
-<!-- BOLETIM -->
-
-<section id="grades-section" *ngIf="logado">
+<section id="grades-section" *ngIf="logado && tipoUsuario === 'aluno'">
 
     <h2>Boletim do Aluno</h2>
 
@@ -59,7 +54,6 @@
     </div>
 
     <table>
-
         <thead>
             <tr>
                 <th>Matéria</th>
@@ -70,25 +64,39 @@
                 <th>Recomposição</th>
             </tr>
         </thead>
-
         <tbody>
-
             <tr *ngFor="let materia of aluno?.notas">
-
                 <td>{{materia.nome}}</td>
                 <td>{{materia.b1}}</td>
                 <td>{{materia.b2}}</td>
                 <td>{{materia.b3}}</td>
                 <td>{{materia.b4}}</td>
                 <td>{{materia.rec}}</td>
-
             </tr>
-
         </tbody>
-
     </table>
 
     <button (click)="logout()">
+        Sair
+    </button>
+
+</section>
+
+<section id="grades-section" *ngIf="logado && tipoUsuario === 'professor'">
+
+    <h2>Área do Professor</h2>
+
+    <div id="student-info" style="border-left-color: #27ae60;">
+        <p><strong>Professor:</strong> {{professor?.nome}}</p>
+        <p><strong>Registro ID:</strong> {{professor?.registro}}</p>
+    </div>
+
+    <div style="padding: 40px 0; text-align: center; color: #555;">
+        <h3>🎓 Diário de Classe Digital</h3>
+        <p style="margin-top: 10px;">Acesso autorizado para lançamento de notas e frequência da Escola Tiradentes.</p>
+    </div>
+
+    <button (click)="logout()" style="background-color: #c0392b;">
         Sair
     </button>
 
